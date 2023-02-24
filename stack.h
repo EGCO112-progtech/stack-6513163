@@ -1,37 +1,38 @@
-#ifndef stack_h
 #define stack_h
 #include "node.h"
 typedef struct {
-  NodePtr top;
-  int size;
-} Stack;
+	NodePtr top;
+	int size;
+}Stack;
 
-typedef Stack *StackPtr;
-void push(StackPtr s, int value) {
-  NodePtr new_node = (NodePtr)malloc(sizeof(Node));
-  if (new_node) {
-    new_node->data = value;
-    new_node->nextPtr = s->top;
-    s->top = new_node;
+typedef Stack * StackPtr;
+void push(StackPtr s, char value){
+  NodePtr newNode = (NodePtr) malloc( sizeof( Node ) );
+
+  if ( newNode ) { 
+    newNode->data = value;
+    newNode->nextPtr = s->top;
+    s->top = newNode;
     s->size++;
   }
-}
-int pop(StackPtr s) {
-  NodePtr t = s->top;
-  if (s->size > 0) {
-    int value = t->data; //(*top)->data
-    s->top = t->nextPtr; //(*top)->nextPtr
+};
+
+int pop(StackPtr s){
+  NodePtr temp = s->top;
+  if(s->size>0){
+    int value = temp->data;
+    s->top = temp->nextPtr;
+    free(temp);
     s->size--;
-    free(t);
+    //printf("pop : %c\n",value);
     return value;
   }
-  printf("Empty stack");
+  //printf("Empty Stack\n");
   return 0;
 }
 
-void pop_all(StackPtr s) {
-  while (s->size>0) { //s->top
-    printf("%d\n",pop(s));
+void pop_all(StackPtr s){
+  while(s->size>0){
+    pop(s);
   }
 }
-#endif
